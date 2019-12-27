@@ -8,13 +8,14 @@ private Integer key=null;
 private double weight=999999999;
 private int tag;
 private String info;
-
-public  Nodedata( Nodedata p) {
-	this.point=p.point;
-	this.weight=p.weight;
-	this.tag=p.tag;
-	this.info=p.info;
-	this.key=p.key;
+public  Nodedata( ) {
+}
+public  Nodedata( node_data p) {
+	this.point=p.getLocation();
+	this.weight=p.getWeight();
+	this.tag=p.getTag();
+	this.info=p.getInfo();
+	this.key=p.getKey();
 	
 }
 public  Nodedata( Point3D point,Integer key) {
