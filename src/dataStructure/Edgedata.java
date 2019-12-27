@@ -1,56 +1,64 @@
 package dataStructure;
 
-import utils.Point3D;
+public class Edgedata  implements edge_data{
 
-public class Edgedata implements edge_data{
-	int src, dest;
-	double weight;
-	String info;
-	int tag;
-	
-	public  Nodedata( ) {
+private int keySrc;
+private int keyDest;
+private double weight;
+private String info="";
+private int tag=0;
+public Edgedata(edge_data p1){
+	this.keySrc=p1.getSrc();
+	this.keyDest=p1.getDest();
+	this.weight=p1.getWeight();
+	this.info=p1.getInfo();
+	this.tag=p1.getTag();
 }
-	public Edgedata(int src2, int dest2, double w) {
-		 src2= src;
-		 dest2= dest;
-		 w= weight;
-	}
+public Edgedata(int keySrc,int keyDest,double weight){
+	this.keySrc=keySrc;
+	this.keyDest=keyDest;
+	this.weight=weight;
+}
 	@Override
-	public int getSrc() { 	
-		return this.src;
+	public int getSrc() {
+		// TODO Auto-generated method stub
+		return keySrc;
 	}
 
 	@Override
 	public int getDest() {
-		return this.dest;
+		// TODO Auto-generated method stub
+		return keyDest;
 	}
 
 	@Override
 	public double getWeight() {
-		return this.weight;
+		// TODO Auto-generated method stub
+		return weight;
 	}
 
 	@Override
 	public String getInfo() {
-		
-		 return this.info;
+		// TODO Auto-generated method stub
+		return info;
 	}
 
 	@Override
 	public void setInfo(String s) {
-		this.info=s;
-		
+		info=s;
 	}
 
 	@Override
 	public int getTag() {
-		
-		return this.tag;
+		return tag;
+	}
+	public void setWeight(double weight) {
+		this.weight=weight;
 	}
 
 	@Override
 	public void setTag(int t) {
-		this.tag=t;
+		tag=t;
 	}
 
 }
