@@ -9,8 +9,8 @@ import java.util.Map;
 
 
 public class DGraph implements graph{
-	public HashMap<Integer, node_data>  dataNode= new HashMap<Integer, node_data>();//20
-	public HashMap<Integer, HashMap<Integer,edge_data>>  edgedataNode= new  HashMap<Integer, HashMap<Integer,edge_data>>();//20
+	private HashMap<Integer, node_data>  dataNode= new HashMap<Integer, node_data>();//20
+	private HashMap<Integer, HashMap<Integer,edge_data>>  edgedataNode= new  HashMap<Integer, HashMap<Integer,edge_data>>();//20
 	 public static int sizeEdge=0;
 	@Override
 	public node_data getNode(int key) {
@@ -34,6 +34,7 @@ public class DGraph implements graph{
 	public void connect(int src, int dest, double w) {
 		sizeEdge++;
 		Edgedata a=new Edgedata(src, dest, w);
+		
 		if(edgedataNode.get(src)==null) {
 			HashMap<Integer,edge_data> b= new HashMap<Integer,edge_data>();
 			edgedataNode.put(src, b);
@@ -43,23 +44,61 @@ public class DGraph implements graph{
 
 	@Override
 	public Collection<node_data> getV() {
-		//HashMap<Integer, node_data>  a= new HashMap<Integer, node_data>();
-		// for (int i = 0; i < dataNode.size(); i++) {
-		//	a.put(dataNode.get(i).getKey(),dataNode.get(i));
-		//}
-		return (Collection<node_data>) dataNode;
+		 ArrayList<node_data> c= new ArrayList<node_data>();
+		 int i=0;
+		 for ( HashMap.Entry   entry :  dataNode.entrySet() ) {
+			c.add(i,dataNode.get(entry.getKey()));
+			i++;
+		 }
+		return c;
 	}
+	public HashMap<Integer, node_data> getVHash() {
+		 HashMap<Integer, node_data>  a= new HashMap<Integer, node_data>();//20
 
+
+		 for ( HashMap.Entry   node_id :  dataNode.entrySet() ) {
+			// System.out.println(node_id.getKey());
+			 Nodedata s=new Nodedata(this.dataNode.get(node_id.getKey()));
+			 
+			a.put((Integer)node_id.getKey(), s);
+			 //System.out.println(a.get((Integer)node_id.getKey()).getKey());
+		 }
+		 
+		return a;
+	}
 	@Override
 	public Collection<edge_data> getE(int node_id) {
-		//HashMap<Integer,edge_data> a= new HashMap<Integer,edge_data>();
-		// for (int i = 0; i < edgedataNode.get(node_id).size(); i++) {
-		//	a.put(edgedataNode.get(node_id).get(i).getDest(),edgedataNode.get(node_id).get(i));
-		//}
-		return (Collection<edge_data>) edgedataNode.get(node_id);
+		 ArrayList<edge_data> c= new ArrayList<edge_data>();
+		 
+		 int i=0;
+		 for ( HashMap.Entry   entry :this.edgedataNode.get( node_id).entrySet() ) {
+			c.add(i, this.edgedataNode.get(node_id).get(entry.getKey()));
+			i++;
+		 }
+		
+		return c;
 		
 	}
-
+	public HashMap<Integer, HashMap<Integer,edge_data>>  getE() {
+		return edgedataNode;
+	}
+	public HashMap<Integer, HashMap<Integer,edge_data>>  getE1() {
+		 int i=0;
+			HashMap<Integer, HashMap<Integer,edge_data>>  a= new  HashMap<Integer, HashMap<Integer,edge_data>>();//20
+			 HashMap<Integer,edge_data> c= new HashMap<Integer,edge_data>();
+			 for ( HashMap.Entry   node_id : edgedataNode.entrySet() ) {
+				 
+				 for ( HashMap.Entry   entry :edgedataNode.get(node_id.getKey()).entrySet() ) {
+				// System.out.println(entry.getKey());
+				c= new HashMap<Integer,edge_data>();
+				Edgedata s= new Edgedata(this.edgedataNode.get(node_id.getKey()).get(entry.getKey()));
+				 c.put(this.edgedataNode.get(node_id.getKey()).get(entry.getKey()).getDest(),s);
+			 }
+			a.put((Integer) node_id.getKey(), c);
+			 }
+			
+			return a;
+	}
 	@Override
 	public node_data removeNode(int key) {
 		//Nodedata a=new Nodedata(data.get(key).getLocation(),data.get(key).getWeight(),data.get(key).getTag());
@@ -101,4 +140,6 @@ public class DGraph implements graph{
 		else System.out.println("no");
 		 
 	}
+
+
 }
