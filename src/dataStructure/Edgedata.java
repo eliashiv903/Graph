@@ -8,7 +8,8 @@ public class Edgedata implements edge_data{
 	String info;
 	int tag;
 	
-	
+	public  Nodedata( ) {
+}
 	public Edgedata(int src2, int dest2, double w) {
 		 src2= src;
 		 dest2= dest;
