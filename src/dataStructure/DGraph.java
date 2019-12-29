@@ -8,10 +8,12 @@ import java.util.Map;
 
 
 
+
 public class DGraph implements graph{
-	private HashMap<Integer, node_data>  dataNode= new HashMap<Integer, node_data>();//20
-	private HashMap<Integer, HashMap<Integer,edge_data>>  edgedataNode= new  HashMap<Integer, HashMap<Integer,edge_data>>();//20
+	public HashMap<Integer, node_data>  dataNode= new HashMap<Integer, node_data>();//20
+	public HashMap<Integer, HashMap<Integer,edge_data>>  edgedataNode= new  HashMap<Integer, HashMap<Integer,edge_data>>();//20
 	 public static int sizeEdge=0;
+	 public ArrayList<Edgedata> ed = new  ArrayList<Edgedata>();
 	@Override
 	public node_data getNode(int key) {
 		return dataNode.get(key);
@@ -29,8 +31,7 @@ public class DGraph implements graph{
 		dataNode.put(n.getKey(), n);
 
 	}
-
-	@Override
+		@Override
 	public void connect(int src, int dest, double w) {
 		sizeEdge++;
 		Edgedata a=new Edgedata(src, dest, w);
@@ -40,8 +41,11 @@ public class DGraph implements graph{
 			edgedataNode.put(src, b);
 		}
 		edgedataNode.get(src).put(dest, a);
+		 ed.add(a);
 	}
-
+		public HashMap<Integer, node_data> getV1() {
+			return this.dataNode;
+		}
 	@Override
 	public Collection<node_data> getV() {
 		 ArrayList<node_data> c= new ArrayList<node_data>();
@@ -66,7 +70,8 @@ public class DGraph implements graph{
 		 
 		return a;
 	}
-	@Override
+		@Override
+		
 	public Collection<edge_data> getE(int node_id) {
 		 ArrayList<edge_data> c= new ArrayList<edge_data>();
 		 
@@ -134,12 +139,19 @@ public class DGraph implements graph{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	public static void main(String[] args) {
-		HashMap<Integer, Integer>  dataNode= new HashMap<Integer, Integer>();
-		if(dataNode.get(22)==null)System.out.println("yes");
-		else System.out.println("no");
-		 
-	}
 
+	 public ArrayList<Edgedata> geta(){
+			return this.ed;
+}
+	 public node_data setnode(int x, int y) {
+			ArrayList<node_data> g1= new ArrayList<node_data>(this.getV());
+			for (node_data a: g1) {
+				if (x<a.getLocation().x()+10 && x>a.getLocation().x()-10 && y<a.getLocation().y()+10 && y>a.getLocation().y()-10) {
+				return a;
+			}
+			}
+			return null;
+		}
 
 }
+
