@@ -24,6 +24,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
+
+
 import algorithms.Graph_Algo;
 import dataStructure.DGraph;
 import dataStructure.Edgedata;
@@ -36,8 +38,12 @@ import utils.Point3D;
 public class Window extends JFrame implements ActionListener, MouseListener
 {
 	DGraph g0= new DGraph();
-
-
+	ArrayList<node_data> g3= new ArrayList<node_data>();
+	ArrayList<Integer> g4= new ArrayList<Integer>();
+	String w="";
+	int src=0;
+	int dest=0;
+	int count=0;
 	public Window()
 	{
 
@@ -47,11 +53,11 @@ public class Window extends JFrame implements ActionListener, MouseListener
 	private void initGUI() 
 	{
 
-		//create();
-		this.setSize(500, 500);
+		this.setSize(1000, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		MenuBar menuBar = new MenuBar();
+
 		Menu menu = new Menu("Menu");
 		menuBar.add(menu);
 		this.setMenuBar(menuBar);
@@ -64,7 +70,7 @@ public class Window extends JFrame implements ActionListener, MouseListener
 		MenuItem item1 = new MenuItem("save");
 		item1.addActionListener(this);
 
-		MenuItem item2 = new MenuItem("clear");
+		MenuItem item2 = new MenuItem("clearAll");
 		item2.addActionListener(this);
 
 		MenuItem item3 = new MenuItem("isconnected");
@@ -75,39 +81,71 @@ public class Window extends JFrame implements ActionListener, MouseListener
 
 		MenuItem item5 = new MenuItem("path");
 		item5.addActionListener(this);
+		
+		MenuItem item9 = new MenuItem("endPath");
+		item9.addActionListener(this);
+
 
 		MenuItem item6 = new MenuItem("TSP");
 		item6.addActionListener(this);
+		
+		MenuItem item8 = new MenuItem("endTSP");
+		item8.addActionListener(this);
+
+		MenuItem item7 = new MenuItem("clearWay");
+		item7.addActionListener(this);
 
 		menu.add(item1);
 		menu.add(item2);
+		menu.add(item7);
 		algo.add(item3);
 		algo.add(item4);
 		algo.add(item5);
 		algo.add(item6);
+		algo.add(item8);
+		algo.add(item9);
 		this.addMouseListener(this);
+		
 	}
 	public void paint(Graphics g) {
 		{
 			super.paint(g);
+
 			ArrayList<node_data> g1= new ArrayList<node_data>(g0.getV());
+			g.setColor(Color.BLUE);
 			for (node_data p: g1) 
 			{
-				g.setColor(Color.BLUE);
 				g.fillOval((int) p.getLocation().x(), (int) p.getLocation().y(), 7,7);	
-				String str= Integer.toString(p.getKey());      
+				String str= Integer.toString(p.getKey());      ///מה עושה????
 				g.drawString(str, (int)p.getLocation().x(), (int)p.getLocation().y()  );
+			//	double px=p.getLocation().x()*100;
+			///	double pxe=(int)px;
+				//double py=p.getLocation().y()*100;
+				//double pye=(int)py;
+				//String str1="("+pxe/100+","+pye/100+")" ;      ///מה עושה????
+			//	g.drawString(str1, (int)p.getLocation().x()-30, (int)p.getLocation().y()-10  );
 			}
 			for(Edgedata p : g0.geta()) {
-				g.setColor(Color.RED);
+				g.setColor(Color.ORANGE);
+				g.fillOval((int) g0.getNode(p.getSrc()).getLocation().x(), (int) g0.getNode(p.getSrc()).getLocation().y(), 9,9);	
+				if(g0.getEdge(p.getDest(), p.getSrc())!=null)g.setColor(Color.green);
+				else g.setColor(Color.RED);
 				g.drawLine((int)g1.get(p.getSrc()).getLocation().x(),(int)g1.get(p.getSrc()).getLocation().y(),(int)g1.get(p.getDest()).getLocation().x(),(int)g1.get(p.getDest()).getLocation().y());		
-				String str= Integer.toString((int) p.getWeight());
+				g.setColor(Color.RED);
+				double d=p.getWeight()*100;
+				double e=(int)d;
+				String str= ""+(e/100);
+				g.setColor(Color.RED);
 				g.drawString(str,(int)((g1.get(p.getSrc()).getLocation().x()+g1.get(p.getDest()).getLocation().x())/2),(int)((g1.get(p.getSrc()).getLocation().y()+g1.get(p.getDest()).getLocation().y())/2));
-				g.drawString(str,(int)((g1.get(p.getSrc()).getLocation().x()+g1.get(p.getDest()).getLocation().x())/3),(int)((g1.get(p.getSrc()).getLocation().y()+g1.get(p.getDest()).getLocation().y())/2));
 			}
+		}
+		g.setColor(Color.black);
+		for (int i = 0; i <g3.size()-1; i++) {
+			g.drawLine(g3.get(i).getLocation().ix(),g3.get(i).getLocation().iy(),g3.get(i+1).getLocation().ix(),g3.get(i+1).getLocation().iy());		
 		}
 	}
 	@Override
+
 	public void actionPerformed(ActionEvent e) 
 	{
 		String str = e.getActionCommand();
@@ -116,12 +154,25 @@ public class Window extends JFrame implements ActionListener, MouseListener
 		{
 			Graph_Algo a = new Graph_Algo();
 			a.init(g0);
-			save_paint();	
+			save_paint();
+			
 		}
-		if(str.equals("clear"))
+		if(str.equals("clearAll"))
 		{
-			g0.getV1().clear();
-			g0.ed.clear();
+			w="";
+			count=0;
+			src=0;
+			dest=0;
+			g3=new ArrayList<node_data>();
+			g0=new DGraph();
+		}
+		if(str.equals("clearWay"))
+		{
+			w="";
+			count=0;
+			src=0;
+			dest=0;
+			g3=new ArrayList<node_data>();
 		}
 
 		if(str.equals("isconnected"))
@@ -139,19 +190,44 @@ public class Window extends JFrame implements ActionListener, MouseListener
 		}
 		if(str.equals("path"))
 		{
-			//code below
+			w=str;
+			
+
+		}
+		if(str.equals("endPath")) {
+			Graph_Algo a = new Graph_Algo();
+			a.init(g0);
+			g3= new ArrayList<node_data>(a.shortestPath(src, dest));
+
+			ArrayList<Integer> g2 = new ArrayList<Integer>();
+			for (int i = 0; i < g3.size(); i++) {	
+				g2.add(g3.get(i).getKey());	
+			}	
+			w="";
+			count=0;
+			src=0;
+			dest=0;
+			System.out.println(g2);
+		}
+		if(str.equals("endTSP")) {
+			Graph_Algo a = new Graph_Algo();
+		a.init(g0);
+		
+		g3= new ArrayList<node_data>(a.TSP(g4));
+		ArrayList<Integer>  g2 = new ArrayList<Integer>();
+		for (int i = 0; i < g3.size(); i++) {	
+			g2.add(g3.get(i).getKey());	
+		}	
+		g4 = new ArrayList<Integer>();
+		System.out.println(g2);
+			w="";
+			
 		}
 		if(str.equals("TSP"))
 		{
-			Graph_Algo a = new Graph_Algo();
-			a.init(g0);
-			ArrayList<node_data> g1= new ArrayList<node_data>(g0.getV());
-			ArrayList<Integer> g2 = new ArrayList<Integer>();
-			for (int i = 0; i < g1.size(); i++) {	
-				g2.add(g1.get(i).getKey());	
-			}	
-
-			System.out.println(a.TSP(g2));
+		w=str;
+		
+			
 
 			/**code to complete
 			 try {
@@ -168,8 +244,43 @@ public class Window extends JFrame implements ActionListener, MouseListener
 	public void mouseClicked(MouseEvent e) {
 		System.out.println("mouseClicked");	
 	}
+	
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
+		if(w.equals("path")) {
+			double x = e.getX();
+			double y = e.getY();
+			Point3D p = new Point3D(x,y);
+				ArrayList<node_data> g1= new ArrayList<node_data>(g0.getV());
+
+				for(node_data a: g1) {
+					Point3D p1 = new Point3D((int)a.getLocation().x(),(int)y);
+					//System.out.println(p1);
+					if (x<p1.x()+15 && x>p1.x()-15 && y<p1.y()+15 && y>p1.y()-15) {
+						if(count==0)src=a.getKey();
+						else dest=a.getKey();
+					}
+				}
+				count++;
+			System.out.println("in list: "+src+","+dest);
+			
+		}
+		if(w.equals("TSP")) {
+			double x = e.getX();
+			double y = e.getY();
+			 new Point3D(x,y);
+				ArrayList<node_data> g1= new ArrayList<node_data>(g0.getV());
+
+				for(node_data a: g1) {
+					Point3D p1 = new Point3D((int)a.getLocation().x(),(int)y);
+				
+					if (x<p1.x()+15 && x>p1.x()-15 && y<p1.y()+15 && y>p1.y()-15) g4.add(a.getKey());
+				}
+			System.out.println("in list:"+g4.get(g4.size()-1));
+			
+		}
+		else {
 		int x = e.getX();
 		int y = e.getY();
 		int j=0;
@@ -201,9 +312,11 @@ public class Window extends JFrame implements ActionListener, MouseListener
 			}
 		}
 		System.out.println("mousePressed");
+		}
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		
 		int x = e.getX();
 		int y = e.getY();
 		Point3D p = new Point3D(x,y);
@@ -216,18 +329,19 @@ public class Window extends JFrame implements ActionListener, MouseListener
 							if(g0.setnode(x,y)==a) {}
 							else{g0.connect(a.getKey(),g0.setnode(x,y).getKey(),(p.distance2D(a.getLocation())));}
 						}
-						a.setWeight(0);	
+						a.setWeight(999999999);	
 					}	
 				}
 				repaint();		
 			}
 		}
 		System.out.println("mouseReleased");
+		}
 
-	}
+	
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		//System.out.println("mouseEntered");
+	
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
@@ -260,4 +374,6 @@ public class Window extends JFrame implements ActionListener, MouseListener
 		g0.connect(0,2,2);
 		g0.connect(0,3,4);		
 	}
+	
+
 }
