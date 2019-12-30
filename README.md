@@ -1,14 +1,13 @@
 ## Welcome to the project
-![](https://user-images.githubusercontent.com/58138902/70725295-cdea9900-1d04-11ea-91f8-1cfc8eb876fb.jpg)
+![](https://user-images.githubusercontent.com/58138902/71572153-7f9c0f00-2ae6-11ea-9ad8-14a221f30d10.jpg)
 ## about the project
-The project represents a polynomial of the form:
-```
-   a*x1^b + a*x2^b + .... + a*xn^b
-   a -> incomplete number
-   b -> Integer  
-```
-After creating a polynomial, many actions can be done which will be detailed later as part of the project.
-for example, It is possible to draw the polynomial: 
+In this project we create a graph. On the graph we can do some algorithms. The graph is represented by vertices and edges.
+The vertices are represented in the Nodedata class, and the edges are represented in the Edgedata class.
+In addition, there is a class that represents a graphical interface. The graphical interface shows the graph and allows it to change the graph and make algorithms on the graph.
+For example, the graphical interface shows us the graph visually:
+
+
+
 
 ![](https://user-images.githubusercontent.com/58138902/70727022-a5b06980-1d07-11ea-8cd7-7b524f9438c0.jpg)
 
