@@ -6,16 +6,14 @@ The vertices are represented in the Nodedata class, and the edges are represente
 In addition, there is a class that represents a graphical interface. The graphical interface shows the graph and allows it to change the graph and make algorithms on the graph.
 For example, the graphical interface shows us the graph visually:
 
-
-
-
-![](https://user-images.githubusercontent.com/58138902/70727022-a5b06980-1d07-11ea-8cd7-7b524f9438c0.jpg)
+![](https://user-images.githubusercontent.com/58138902/71573283-c3454780-2aeb-11ea-82b5-05154cd10db7.png)
 
 ## main class in the project: 
-- **Monom:** https://github.com/eliashiv903/ex0/wiki/monom
-- **Polynom:** https://github.com/eliashiv903/ex0/wiki/polynom
-- **Function_GUI:** https://github.com/eliashiv903/ex0/wiki/Functions-GUI
-- **Complex_Function:** https://github.com/eliashiv903/ex0/wiki/Complex-Function
+- **Edgedata:** https://github.com/eliashiv903/ex0/wiki/monom
+- **Nodedata:** https://github.com/eliashiv903/ex0/wiki/polynom
+- **DGraph:** https://github.com/eliashiv903/ex0/wiki/polynom
+- **GUI:** https://github.com/eliashiv903/ex0/wiki/Functions-GUI
+- **Graph_algo:** https://github.com/eliashiv903/ex0/wiki/Complex-Function
 
 ### Sorces
 polynom - https://de.wikipedia.org/wiki/Polynom
