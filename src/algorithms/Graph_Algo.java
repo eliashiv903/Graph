@@ -1,4 +1,13 @@
 package algorithms;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -6,6 +15,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.io.*; 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 
 import dataStructure.DGraph;
@@ -14,35 +29,53 @@ import dataStructure.edge_data;
 import dataStructure.graph;
 import dataStructure.node_data;
 import utils.Point3D;
+
 /**
  * This empty class represents the set of graph-theory algorithms
  * which should be implemented as part of Ex2 - Do edit this class.
  * @author 
  *
  */
-public class Graph_Algo implements graph_algorithms{
+public class Graph_Algo implements graph_algorithms  {
 	private DGraph smart=new DGraph ();
 	@Override
 	public void init(graph g) {
 		smart=(DGraph) g;
 	}
-	public Collection<node_data> getV() {
-		return smart.getV();
-	}
-	public Collection<edge_data> getE(int node_id) {
-		return smart.getE(node_id);
-	}
+	
 	@Override
 	public void init(String file_name) {
-		// TODO Auto-generated method stub
-
+        try   {    
+            FileInputStream file = new FileInputStream(file_name); 
+            ObjectInputStream in = new ObjectInputStream(file); 
+            this.smart = (DGraph)in.readObject(); 
+            in.close(); 
+            file.close(); 
+            System.out.println("Object has been deserialized"); 
+        } 
+        catch(IOException ex)  { 
+            System.out.println("IOException is caught"); 
+        }  
+        catch(ClassNotFoundException ex)   { 
+            System.out.println("ClassNotFoundException is caught"); 
+        } 
 	}
 
 	@Override
 	public void save(String file_name) {
-		// TODO Auto-generated method stub
-
-	}
+	        try  {    
+	            FileOutputStream file = new FileOutputStream(file_name); 
+	            ObjectOutputStream out = new ObjectOutputStream(file); 
+	           out.writeObject(smart);
+	            out.close(); 
+	            file.close(); 
+	            System.out.println("Object has been serialized"); 
+	        }   
+	        catch(IOException ex)   { 
+	            System.out.println("IOException is caught"); 
+	        } 
+		} 
+	
 
 	@Override
 	public boolean isConnected() {
@@ -68,6 +101,9 @@ public class Graph_Algo implements graph_algorithms{
 		return true;
 	}
 
+	
+
+	
 
 
 	@Override
@@ -93,18 +129,9 @@ public class Graph_Algo implements graph_algorithms{
 		for (int i = 0; i < s.size(); i++) {
 			if(dataNode.get(s.get(i).getKey()).getTag()!=1)	shortestPathDist1(s.get(i).getKey(),dest,dataNode,edgedataNode);
 		}
-		if(edgedataNode.get(src)!=null)for ( HashMap.Entry   entry1 :  edgedataNode.get(src).entrySet() ) {
-			if(	edgedataNode.get(src).get(entry1.getKey()).getTag()!=1) {
-				edgedataNode.get(src).get(entry1.getKey()).setTag(1);
-				edgedataNode.get(src).get(entry1.getKey()).setWeight(dataNode.get(entry1.getKey()).getWeight());
-			}
-		}
+		
 		return dataNode.get(dest).getWeight();
 	}
-
-
-
-
 
 	public List<node_data> shortestPath(int src, int dest) {
 		HashMap<Integer, node_data>  dataNode= new HashMap<Integer, node_data>(smart.getVHash());
@@ -142,16 +169,10 @@ public class Graph_Algo implements graph_algorithms{
 		}
 		return go.get(dest);
 	}
-
-
-
-
-
-
-
-
 	public List<node_data> TSP(List<Integer> targets) {
-		List<node_data> ans=new ArrayList<node_data>();
+		 Graph_Algo a=new  Graph_Algo ();
+		 for (int i = 0; i < targets.size(); i++) a.smart.addNode(smart.getNode(targets.get(i)));
+	//if(!a.isConnected())return null;
 		return sort(targets);
 	}
 
@@ -171,6 +192,7 @@ public class Graph_Algo implements graph_algorithms{
 					if(ans.size()!=1 &&ans.size()!=0 )ans1.remove(ans1.size()-1);
 					break;
 				}
+				else return new ArrayList<node_data>();//???chnge to null
 			}
 		}
 		return ans1;
@@ -202,6 +224,9 @@ public class Graph_Algo implements graph_algorithms{
 		return null;
 	}
 	public static void main(String[] args) {
+		String s=",,,dddd,,,,,,,";
+		while(s.charAt(s.length()-1)==' ' ||s.charAt(s.length()-1)==',')s=s.substring(0,s.length()-1);
+		System.out.println(s);
 		List<Integer> t=new ArrayList<Integer>();
 		t.add(1);
 		t.add(2);
@@ -216,6 +241,7 @@ public class Graph_Algo implements graph_algorithms{
 		System.out.print("]");
 		System.out.println();
 		Graph_Algo a=new Graph_Algo();
+		graph q2=new DGraph();
 		Nodedata b1=new Nodedata(new Point3D(-1, 1),1);
 		Nodedata b2=new Nodedata(new Point3D(-1, -1),2);
 		Nodedata b3=new Nodedata(new Point3D(0, 0),3);
@@ -230,78 +256,86 @@ public class Graph_Algo implements graph_algorithms{
 		Nodedata b12=new Nodedata(new Point3D(3, -3.2),12);
 		Nodedata b13=new Nodedata(new Point3D(3, -3.21),13);
 		Nodedata b14=new Nodedata(new Point3D(-3, 3.4),14);
-		a.smart.addNode(b1);
-		a.smart.addNode(b2);
+		Nodedata b15=new Nodedata(new Point3D(0, 0.5),15);
+		
+		q2.addNode(b1);
+		q2.addNode(b2);
 
-		a.smart.addNode(b3); 
-		a.smart.addNode(b4);
-		a.smart.addNode(b5);
-		a.smart.addNode(b6);
-		a.smart.addNode(b7);
-		a.smart.addNode(b8);
-		a.smart.addNode(b9);
-		a.smart.addNode(b10);
-		a.smart.addNode(b11);
-		a.smart.addNode(b12);
-		a.smart.addNode(b13);
-		a.smart.addNode(b14);
+		q2.addNode(b3); 
+		q2.addNode(b4);
+		q2.addNode(b5);
+		q2.addNode(b6);
+		q2.addNode(b7);
+		q2.addNode(b8);
+		q2.addNode(b9);
+		q2.addNode(b10);
+		q2.addNode(b11);
+		q2.addNode(b12);
+		q2.addNode(b13);
+		q2.addNode(b14);
+		q2.addNode(b15);
 		ArrayList<Integer> ans=new ArrayList<Integer>();
 		//System.out.println(ans.size());
 		double w=999999999;
 		//a.smart.connect(b1.getKey(), b2.getKey(), w);
-		a.smart.connect(b1.getKey(), b2.getKey(), w);
-		a.smart.connect(b2.getKey(), b3.getKey(), w);
-		a.smart.connect(b3.getKey(), b4.getKey(), w);
+		q2.connect(b1.getKey(), b2.getKey(), w);
+		q2.connect(b2.getKey(), b3.getKey(), w);
+		q2.connect(b3.getKey(), b4.getKey(), w);
 		//a.smart.connect(b7.getKey(), b2.getKey(), w);
-		a.smart.connect(b4.getKey(), b5.getKey(), w);
-		a.smart.connect(b5.getKey(), b6.getKey(), w);
-		a.smart.connect(b6.getKey(), b7.getKey(), w);
-		a.smart.connect(b7.getKey(), b8.getKey(), w);
-		a.smart.connect(b8.getKey(),b9.getKey(), w); 
-		a.smart.connect(b9.getKey(),b1.getKey(), w); 
-		a.smart.connect(b2.getKey(),b6.getKey(), w); 
-		a.smart.connect(b2.getKey(), b4.getKey(), w);
-		a.smart.connect(b2.getKey(),b1.getKey(), w); 
-		a.smart.connect(b9.getKey(),b1.getKey(), w); 
-		a.smart.connect(b2.getKey(),b7.getKey(), w);
-		a.smart.connect(b9.getKey(),b10.getKey(), w); 
-		a.smart.connect(b10.getKey(), b11.getKey(), w);
-		a.smart.connect(b11.getKey(),b12.getKey(), w); 
-		a.smart.connect(b12.getKey(),b14.getKey(), w); 
-		a.smart.connect(b13.getKey(),b12.getKey(), w); 
-		a.smart.connect(b13.getKey(),b1.getKey(), w); 
-		a.smart.connect(b12.getKey(),b13.getKey(), w); 
-		a.smart.connect(b14.getKey(),b13.getKey(), w); 
-
-		a.smart.connect(b14.getKey(),b1.getKey(), w); 
-		a.smart.connect(b14.getKey(),b14.getKey(), w); 
+		q2.connect(b4.getKey(), b5.getKey(), w);
+		q2.connect(b5.getKey(), b6.getKey(), w);
+		q2.connect(b6.getKey(), b7.getKey(), w);
+		q2.connect(b7.getKey(), b8.getKey(), w);
+		q2.connect(b8.getKey(),b9.getKey(), w); 
+		q2.connect(b9.getKey(),b1.getKey(), w); 
+		q2.connect(b2.getKey(),b6.getKey(), w); 
+		q2.connect(b2.getKey(), b4.getKey(), w);
+		q2.connect(b2.getKey(),b1.getKey(), w); 
+		q2.connect(b9.getKey(),b1.getKey(), w); 
+		q2.connect(b2.getKey(),b7.getKey(), w);
+		q2.connect(b9.getKey(),b10.getKey(), w); 
+		q2.connect(b10.getKey(), b11.getKey(), w);
+		q2.connect(b11.getKey(),b12.getKey(), w); 
+		q2.connect(b12.getKey(),b14.getKey(), w); 
+		q2.connect(b13.getKey(),b12.getKey(), w); 
+		q2.connect(b13.getKey(),b1.getKey(), w); 
+		q2.connect(b12.getKey(),b13.getKey(), w); 
+		q2.connect(b14.getKey(),b13.getKey(), w); 
+		q2.connect(b14.getKey(),b15.getKey(), w); 
+		q2.connect(b3.getKey(),b15.getKey(), w);
+		q2.connect(b15.getKey(),b1.getKey(), w);
+		q2.connect(b4.getKey(),b15.getKey(), w);
+		q2.connect(b14.getKey(),b1.getKey(), w); 
+		q2.connect(b14.getKey(),b14.getKey(), w); 
 		//System.out.println(a.isConnected());
-
-		System.out.println(a.shortestPathDist(12, 13)+"no?");
+a.init(q2);
+		System.out.println(a.shortestPathDist(3, 15)+"no?");
 
 
 		List<Integer>  e=new ArrayList<Integer> ();
-		e.add(12);
+		e.add(3);
 		//e.add(4);
-		e.add(13);
-		e.add(14);
+		e.add(4);
+		e.add(15);
 		//e.remove(1);
 		System.out.println(e.size()+"size");
 		System.out.println(e.get(1)+"?????");
-		//e.add(4);
+		//e.add(3);
 		//e.add(5);
 		//e.add(6);
 		//e.add(8);
 
 		//a.TSP(e);
-		System.out.println(a.shortestPathDist(b9.getKey(), b1.getKey())+"hbbh");
-		System.out.println(a.smart.getEdge(9, 10).getWeight());
-		System.out.println(a.shortestPathDist(b1.getKey(), b14.getKey())+"hbbh");
-		System.out.println(a.shortestPathDist(b9.getKey(), b10.getKey())+"hbbh");
-		System.out.println(a.shortestPathDist(b10.getKey(), b11.getKey())+"hbbh");
-		System.out.println(a.shortestPathDist(b11.getKey(), b12.getKey())+"hbbh");
-		System.out.println(a.shortestPathDist(b12.getKey(), b13.getKey())+"hbbh");
-		System.out.println(a.shortestPathDist(b13.getKey(), b14.getKey())+"hbbh");
+		
+		 System.out.println(a.shortestPathDist(b9.getKey(), b1.getKey())+"hbbh");
+		  System.out.println(a.smart.getEdge(9, 10).getWeight());
+		  System.out.println(a.shortestPathDist(b1.getKey(), b14.getKey())+"hbbh");
+		  System.out.println(a.shortestPathDist(b9.getKey(), b10.getKey())+"hbbh");
+		  System.out.println(a.shortestPathDist(b10.getKey(), b11.getKey())+"hbbh");
+		  System.out.println(a.shortestPathDist(b11.getKey(), b12.getKey())+"hbbh");
+		  System.out.println(a.shortestPathDist(b12.getKey(), b13.getKey())+"hbbh");
+		  System.out.println(a.shortestPathDist(b13.getKey(), b14.getKey())+"hbbh");
+		 a.save("rr.txt");
 
 		List<node_data>  x=new ArrayList<node_data> ();
 
