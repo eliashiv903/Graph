@@ -22,8 +22,11 @@ public class DGraph implements graph{
 	
 	@Override
 	public edge_data getEdge(int src, int dest) {
+		if(edgedataNode.get(src)!=null)
 		return edgedataNode.get(src).get(dest);
+		else return null;
 	}
+
 
 	@Override
 	public void addNode(node_data n) {
