@@ -9,17 +9,17 @@ For example, the graphical interface shows us the graph visually:
 ![](https://user-images.githubusercontent.com/58138902/71573283-c3454780-2aeb-11ea-82b5-05154cd10db7.png)
 
 ## main class in the project: 
-- **Edgedata:** https://github.com/eliashiv903/ex0/wiki/monom
-- **Nodedata:** https://github.com/eliashiv903/ex0/wiki/polynom
-- **DGraph:** https://github.com/eliashiv903/ex0/wiki/polynom
-- **GUI:** https://github.com/eliashiv903/ex0/wiki/Functions-GUI
-- **Graph_algo:** https://github.com/eliashiv903/ex0/wiki/Complex-Function
-
+- **Edgedata:** https://github.com/eliashiv903/Graph/wiki/Edgedata
+- **Nodedata:** https://github.com/eliashiv903/Graph/wiki/Nodedata
+- **DGraph:** https://github.com/eliashiv903/Graph/wiki/DGraph
+- **GUI:** https://github.com/eliashiv903/Graph/wiki/GUI
+- **Graph_algo:** https://github.com/eliashiv903/Graph/wiki/Graph_algo  
 ### Sorces
 polynom - https://de.wikipedia.org/wiki/Polynom
 
-StdDraw- https://introcs.cs.princeton.edu/java/stdlib/javadoc/StdDraw.html
+Dijkstra's Algorithm - https://www.codingame.com/playgrounds/1608/shortest-paths-with-dijkstras-algorithm/dijkstras-algorithm
 
-Riemann_integral  - https://en.wikipedia.org/wiki/Riemann_integral 
+JFrame- https://docs.oracle.com/javase/7/docs/api/javax/swing/JFrame.html
 
-Iterator -https://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html
+Connected graph- https://en.wikipedia.org/wiki/Connectivity_(graph_theory)
+
