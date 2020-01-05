@@ -18,6 +18,8 @@ For example, the graphical interface shows us the graph visually:
 
 Dijkstra's Algorithm - https://www.codingame.com/playgrounds/1608/shortest-paths-with-dijkstras-algorithm/dijkstras-algorithm
 
+Travelling salesman problem- https://en.wikipedia.org/wiki/Travelling_salesman_problem
+
 JFrame- https://docs.oracle.com/javase/7/docs/api/javax/swing/JFrame.html
 
 Connected graph- https://en.wikipedia.org/wiki/Connectivity_(graph_theory)
