@@ -52,7 +52,7 @@ public class Window extends JFrame implements ActionListener, MouseListener {
 	private int count = 0;
 	private int countSave = 0;
 	public  Window(graph p) {
-		g0=new DGraph(p);
+		g0=(DGraph) p;
 		initGUI();
 		repaint();
 	}

@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+
+import Gui.Window;
+
 import java.io.*; 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -43,6 +46,10 @@ public class Graph_Algo implements graph_algorithms  {
 	}
 	public  Graph_Algo() {
 
+	}
+	public void Gui() {
+		Window window = new Window(smart);
+		window.setVisible(true);
 	}
 	@Override
 	public void init(graph g) {

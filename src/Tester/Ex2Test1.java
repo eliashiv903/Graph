@@ -59,7 +59,7 @@ class Ex2Test1 {
 		return ans;
 	}
 	boolean drawGraph(graph g) { 
-		Window window = new Window();
+		Window window = new Window(g);
 		window.setVisible(true);
 		return true;
 		
